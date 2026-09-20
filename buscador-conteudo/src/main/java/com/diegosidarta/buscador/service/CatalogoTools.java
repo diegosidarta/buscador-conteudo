@@ -29,12 +29,14 @@ public class CatalogoTools {
             @ToolParam(description = "Tempo máximo disponível em minutos, pode ser nulo se o usuário não disse")
             Integer duracaoMaximaMinutos
     ) {
-        return repository.findAll().stream()
-                .map(e -> new Conteudo(e.getTitulo(), e.getGenero(), e.getDuracaoMinutos(),
+        String humorFiltro = (humor == null || humor.isBlank()) ? null : humor.trim();
+
+        return repository.buscarPorFiltros(humorFiltro, duracaoMaximaMinutos).stream()
+                .map(e -> new Conteudo(
+                        e.getTitulo(),
+                        e.getGenero(),
+                        e.getDuracaoMinutos(),
                         List.copyOf(e.getTags())))
-                .filter(c -> duracaoMaximaMinutos == null || c.duracaoMinutos() <= duracaoMaximaMinutos)
-                .filter(c -> humor == null || humor.isBlank()
-                        || c.tags().stream().anyMatch(tag -> tag.equalsIgnoreCase(humor)))
                 .toList();
     }
 }
