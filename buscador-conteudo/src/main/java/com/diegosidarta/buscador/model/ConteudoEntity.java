@@ -19,7 +19,7 @@ public class ConteudoEntity {
 
     @ElementCollection
     @CollectionTable(name = "conteudo_tags", joinColumns = @JoinColumn(name = "conteudo_id"))
-    @Column(name = "tag")
+    @Column(name = "tag", nullable = false)
     private Set<String> tags = new HashSet<>();
 
     protected ConteudoEntity() {
